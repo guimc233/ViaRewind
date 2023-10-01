@@ -25,4 +25,4 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Build with Gradle
-        run: ./gradlew build && apt update && apt install tree && tree
+        run: ./gradlew build && sudo apt -y update && sudo apt -y install tree && tree
