@@ -82,84 +82,84 @@ public class Cooldown extends StoredObject implements Tickable {
 	}
 
 	private void showCooldown() {
-		if (cooldownIndicator == ViaRewindConfig.CooldownIndicator.TITLE) {
-			sendTitle("", getTitle(), 0, 2, 5);
-		} else if (cooldownIndicator == ViaRewindConfig.CooldownIndicator.ACTION_BAR) {
-			sendActionBar(getTitle());
-		} else if (cooldownIndicator == ViaRewindConfig.CooldownIndicator.BOSS_BAR) {
-			sendBossBar((float) getCooldown());
-		}
+		// I dont like show cooldown
+
+		// if (cooldownIndicator == ViaRewindConfig.CooldownIndicator.TITLE) {
+		// 	sendTitle("", getTitle(), 0, 2, 5);
+		// } else if (cooldownIndicator == ViaRewindConfig.CooldownIndicator.ACTION_BAR) {
+		// 	sendActionBar(getTitle());
+		// } else if (cooldownIndicator == ViaRewindConfig.CooldownIndicator.BOSS_BAR) {
+		// 	sendBossBar((float) getCooldown());
+		// }
 	}
 
 	private void hide() {
-		if (cooldownIndicator == ViaRewindConfig.CooldownIndicator.ACTION_BAR) {
-			sendActionBar("§r");
-		} else if (cooldownIndicator == ViaRewindConfig.CooldownIndicator.TITLE) {
-			hideTitle();
-		} else if (cooldownIndicator == ViaRewindConfig.CooldownIndicator.BOSS_BAR) {
-			hideBossBar();
-		}
+		// if (cooldownIndicator == ViaRewindConfig.CooldownIndicator.ACTION_BAR) {
+		// 	sendActionBar("§r");
+		// } else if (cooldownIndicator == ViaRewindConfig.CooldownIndicator.TITLE) {
+		// 	hideTitle();
+		// } else if (cooldownIndicator == ViaRewindConfig.CooldownIndicator.BOSS_BAR) {
+		// 	hideBossBar();
+		// }
 	}
 
-	private void hideBossBar() {
-		if (bossUUID == null) return;
-		PacketWrapper wrapper = PacketWrapper.create(ClientboundPackets1_9.BOSSBAR, null, getUser());
-		wrapper.write(Type.UUID, bossUUID);
-		wrapper.write(Type.VAR_INT, 1);
-		PacketUtil.sendPacket(wrapper, Protocol1_8To1_9.class, false, true);
-		bossUUID = null;
-	}
+	// private void hideBossBar() {
+	// 	if (bossUUID == null) return;
+	// 	PacketWrapper wrapper = PacketWrapper.create(ClientboundPackets1_9.BOSSBAR, null, getUser());
+	// 	wrapper.write(Type.UUID, bossUUID);
+	// 	wrapper.write(Type.VAR_INT, 1);
+	// 	PacketUtil.sendPacket(wrapper, Protocol1_8To1_9.class, false, true);
+	// 	bossUUID = null;
+	// }
 
-	private void sendBossBar(float cooldown) {
-		PacketWrapper wrapper = PacketWrapper.create(ClientboundPackets1_9.BOSSBAR, getUser());
-		if (bossUUID == null) {
-			bossUUID = UUID.randomUUID();
-			wrapper.write(Type.UUID, bossUUID);
-			wrapper.write(Type.VAR_INT, 0);
-			wrapper.write(Type.COMPONENT, new JsonPrimitive(" "));
-			wrapper.write(Type.FLOAT, cooldown);
-			wrapper.write(Type.VAR_INT, 0);
-			wrapper.write(Type.VAR_INT, 0);
-			wrapper.write(Type.UNSIGNED_BYTE, (short) 0);
-		} else {
-			wrapper.write(Type.UUID, bossUUID);
-			wrapper.write(Type.VAR_INT, 2);
-			wrapper.write(Type.FLOAT, cooldown);
-		}
-		PacketUtil.sendPacket(wrapper, Protocol1_8To1_9.class, false, true);
-	}
+	// private void sendBossBar(float cooldown) {
+	// 	PacketWrapper wrapper = PacketWrapper.create(ClientboundPackets1_9.BOSSBAR, getUser());
+	// 	if (bossUUID == null) {
+	// 		bossUUID = UUID.randomUUID();
+	// 		wrapper.write(Type.UUID, bossUUID);
+	// 		wrapper.write(Type.VAR_INT, 0);
+	// 		wrapper.write(Type.COMPONENT, new JsonPrimitive(" "));
+	// 		wrapper.write(Type.FLOAT, cooldown);
+	// 		wrapper.write(Type.VAR_INT, 0);
+	// 		wrapper.write(Type.VAR_INT, 0);
+	// 		wrapper.write(Type.UNSIGNED_BYTE, (short) 0);
+	// 	} else {
+	// 		wrapper.write(Type.UUID, bossUUID);
+	// 		wrapper.write(Type.VAR_INT, 2);
+	// 		wrapper.write(Type.FLOAT, cooldown);
+	// 	}
+	// 	PacketUtil.sendPacket(wrapper, Protocol1_8To1_9.class, false, true);
+	// }
 
-	private void hideTitle() {
-		PacketWrapper hide = PacketWrapper.create(ClientboundPackets1_8.TITLE, null, getUser());
-		hide.write(Type.VAR_INT, 3);
-		PacketUtil.sendPacket(hide, Protocol1_8To1_9.class);
-	}
+	// private void hideTitle() {
+	// 	PacketWrapper hide = PacketWrapper.create(ClientboundPackets1_8.TITLE, null, getUser());
+	// 	hide.write(Type.VAR_INT, 3);
+	// 	PacketUtil.sendPacket(hide, Protocol1_8To1_9.class);
+	// }
 
-	private void sendTitle(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
-		PacketWrapper timePacket = PacketWrapper.create(ClientboundPackets1_8.TITLE, null, getUser());
-		timePacket.write(Type.VAR_INT, 2);
-		timePacket.write(Type.INT, fadeIn);
-		timePacket.write(Type.INT, stay);
-		timePacket.write(Type.INT, fadeOut);
-		PacketWrapper titlePacket = PacketWrapper.create(ClientboundPackets1_8.TITLE, getUser());
-		titlePacket.write(Type.VAR_INT, 0);
-		titlePacket.write(Type.COMPONENT, new JsonPrimitive(title));
-		PacketWrapper subtitlePacket = PacketWrapper.create(ClientboundPackets1_8.TITLE, getUser());
-		subtitlePacket.write(Type.VAR_INT, 1);
-		subtitlePacket.write(Type.COMPONENT, new JsonPrimitive(subTitle));
+	// private void sendTitle(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
+	// 	PacketWrapper timePacket = PacketWrapper.create(ClientboundPackets1_8.TITLE, null, getUser());
+	// 	timePacket.write(Type.VAR_INT, 2);
+	// 	timePacket.write(Type.INT, fadeIn);
+	// 	timePacket.write(Type.INT, stay);
+	// 	timePacket.write(Type.INT, fadeOut);
+	// 	PacketWrapper titlePacket = PacketWrapper.create(ClientboundPackets1_8.TITLE, getUser());
+	// 	titlePacket.write(Type.VAR_INT, 0);
+	// 	titlePacket.write(Type.COMPONENT, new JsonPrimitive(title));
+	// 	PacketWrapper subtitlePacket = PacketWrapper.create(ClientboundPackets1_8.TITLE, getUser());
+	// 	subtitlePacket.write(Type.VAR_INT, 1);
+	// 	subtitlePacket.write(Type.COMPONENT, new JsonPrimitive(subTitle));
+	// 	PacketUtil.sendPacket(titlePacket, Protocol1_8To1_9.class);
+	// 	PacketUtil.sendPacket(subtitlePacket, Protocol1_8To1_9.class);
+	// 	PacketUtil.sendPacket(timePacket, Protocol1_8To1_9.class);
+	// }
 
-		PacketUtil.sendPacket(titlePacket, Protocol1_8To1_9.class);
-		PacketUtil.sendPacket(subtitlePacket, Protocol1_8To1_9.class);
-		PacketUtil.sendPacket(timePacket, Protocol1_8To1_9.class);
-	}
-
-	private void sendActionBar(String bar) {
-		PacketWrapper actionBarPacket = PacketWrapper.create(ClientboundPackets1_8.CHAT_MESSAGE, getUser());
-		actionBarPacket.write(Type.COMPONENT, new JsonPrimitive(bar));
-		actionBarPacket.write(Type.BYTE, (byte) 2);
-
-		PacketUtil.sendPacket(actionBarPacket, Protocol1_8To1_9.class);
-	}
+	// private void sendActionBar(String bar) {
+	// 	PacketWrapper actionBarPacket = PacketWrapper.create(ClientboundPackets1_8.CHAT_MESSAGE, getUser());
+	// 	actionBarPacket.write(Type.COMPONENT, new JsonPrimitive(bar));
+	// 	actionBarPacket.write(Type.BYTE, (byte) 2);
+	// 	PacketUtil.sendPacket(actionBarPacket, Protocol1_8To1_9.class);
+	// }
 
 	public boolean hasCooldown() {
 		long time = System.currentTimeMillis() - lastHit;
@@ -179,26 +179,25 @@ public class Cooldown extends StoredObject implements Tickable {
 
 	private static final int max = 10;
 
-	private String getTitle() {
-		String symbol = cooldownIndicator == ViaRewindConfig.CooldownIndicator.ACTION_BAR ? "■" : "˙";
+	// private String getTitle() {
+	// 	String symbol = cooldownIndicator == ViaRewindConfig.CooldownIndicator.ACTION_BAR ? "■" : "˙";
+	// 	double cooldown = getCooldown();
+	// 	int green = (int) Math.floor(((double) max) * cooldown);
+	// 	int grey = max - green;
+	// 	StringBuilder builder = new StringBuilder("§8");
+	// 	while (green-- > 0) builder.append(symbol);
+	// 	builder.append("§7");
+	// 	while (grey-- > 0) builder.append(symbol);
+	// 	return builder.toString();
+	// }
 
-		double cooldown = getCooldown();
-		int green = (int) Math.floor(((double) max) * cooldown);
-		int grey = max - green;
-		StringBuilder builder = new StringBuilder("§8");
-		while (green-- > 0) builder.append(symbol);
-		builder.append("§7");
-		while (grey-- > 0) builder.append(symbol);
-		return builder.toString();
-	}
+	// public double getAttackSpeed() {
+	// 	return attackSpeed;
+	// }
 
-	public double getAttackSpeed() {
-		return attackSpeed;
-	}
-
-	public void setAttackSpeed(double attackSpeed) {
-		this.attackSpeed = attackSpeed;
-	}
+	// public void setAttackSpeed(double attackSpeed) {
+	// 	this.attackSpeed = attackSpeed;
+	// }
 
 	public void setAttackSpeed(double base, ArrayList<Pair<Byte, Double>> modifiers) {
 		attackSpeed = base;
