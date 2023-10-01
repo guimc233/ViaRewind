@@ -478,20 +478,12 @@ public class PlayerPackets {
 			public void register() {
 				handler(packetWrapper -> {
 					packetWrapper.cancel();
-
-					/* We have to add ArmAnimation to a queue to be sent on PacketPlayInFlying. In 1.9,
-					 * PacketPlayInArmAnimation is sent after PacketPlayInUseEntity, not before like it used to be.
-					 * However, all packets are sent before PacketPlayInFlying. We'd just do a normal delay, but
-					 * it would cause the packet to be sent after PacketPlayInFlying, potentially false flagging
-					 * anticheats that check for this behavior from clients. Since all packets are sent before
-					 * PacketPlayInFlying, if we queue it to be sent right before PacketPlayInFlying is processed,
-					 * we can be certain it will be sent after PacketPlayInUseEntity */
-					packetWrapper.cancel();
-					final PacketWrapper delayedPacket = PacketWrapper.create(0x1A,
+					final PacketWrapper animationPacket = PacketWrapper.create(0x1A,
 							null, packetWrapper.user());
-					delayedPacket.write(Type.VAR_INT, 0);  //Main Hand
+					animationPacket.write(Type.VAR_INT, 0);  //Main Hand
 
-					((Protocol1_8To1_9) protocol).animationsToSend.add(delayedPacket);
+					// ((Protocol1_8To1_9) protocol).animationsToSend.add(delayedPacket);
+					PacketUtil.sendToServer(animationPacket, Protocol1_8To1_9.class, true, true);
 				});
 				handler(packetWrapper -> {
 					packetWrapper.user().get(BlockPlaceDestroyTracker.class).updateMining();
