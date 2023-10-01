@@ -25,4 +25,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Build with Gradle
-        run: ./gradlew build && sudo apt -y update && sudo apt -y install tree && tree
+        run: ./gradlew build
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: viarewind
+          path: common/build/libs/*.jar
